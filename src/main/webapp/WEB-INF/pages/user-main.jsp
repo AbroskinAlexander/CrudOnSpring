@@ -33,8 +33,8 @@
         <tr>
             <td align="right" width="150">Тип пользователя:</td>
             <td><select name="role" >
-                <option>user</option>
-                <option>admin</option>
+                <option>USER</option>
+                <option>ADMIN</option>
             </select>
             </td>
         </tr>
@@ -74,6 +74,11 @@
             </td>
         </tr>
     </c:forEach>
+
+
 </table>
+<form method="post" action="/logout">
+    <input type="submit" value="Выход">
+</form>
 </body>
 </html>

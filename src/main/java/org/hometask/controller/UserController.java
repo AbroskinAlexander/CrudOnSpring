@@ -2,6 +2,7 @@ package org.hometask.controller;
 
 import org.hometask.model.User;
 import org.hometask.service.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,16 @@ public class UserController {
         this.serv = serv;
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public ModelAndView home(Authentication authentication, ModelAndView model) {
+            List<User> user = new ArrayList<>();
+            user.add(serv.getUserByEmail(authentication.getName()));
+            model.addObject("user", user);
+            model.setViewName("user-info");
+            return model;
+    }
+
+    @RequestMapping(value = "/admin", method = RequestMethod.GET)
     public ModelAndView allUsers(ModelAndView modelAndView) {
         List<User> allUser = serv.getAllUsers();
         modelAndView.setViewName("user-main");
@@ -31,7 +41,7 @@ public class UserController {
     @RequestMapping(value = "/admin/add", method = RequestMethod.POST)
     public ModelAndView addUser(@ModelAttribute("user") User user, ModelAndView modelAndView) {
         serv.addUser(user);
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/admin");
         return modelAndView;
     }
 
@@ -47,14 +57,14 @@ public class UserController {
     @RequestMapping(value = "/admin/update", method = RequestMethod.POST)
     public ModelAndView updateUser(@ModelAttribute("user") User user, ModelAndView modelAndView) {
         serv.updateUser(user);
-        modelAndView.setViewName("redirect:/");
+        modelAndView.setViewName("redirect:/admin");
         return modelAndView;
     }
 
     @RequestMapping(value = "/admin/delete", method = RequestMethod.POST)
     public String deleteUser(@RequestParam("id") Long id) {
         serv.deleteUser(serv.getUserById(id));
-        return "redirect:/";
+        return "redirect:/admin";
     }
 
 }

@@ -7,6 +7,7 @@ import org.hometask.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -53,5 +54,22 @@ public class UserDAOImpl implements UserDAO {
         query.setParameter("email", user.getEmail());
         List<User> list = query.list();
         return list.size() == 0;
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("From User where email=:email");
+        query.setParameter("email", email);
+        if ( query.list().size() != 0) {
+            return (User)query.list().get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public Optional<User> getUserByName(String name) {
+        Optional<User> res = Optional.ofNullable(getUserByEmail(name));
+        return res;
     }
 }
