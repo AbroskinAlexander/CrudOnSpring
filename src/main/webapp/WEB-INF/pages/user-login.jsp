@@ -11,8 +11,8 @@
             <td>Введите:</td>
         </tr>
         <tr>
-            <td align="right" width="100">Email:</td>
-            <td><input type="email" name="email" maxlength="50" size="20" required placeholder></td>
+            <td align="right" width="100">UserName:</td>
+            <td><input type="text" name="username" maxlength="50" size="20" required placeholder></td>
         </tr>
         <tr>
             <td align="right" width="100">Пароль:</td>

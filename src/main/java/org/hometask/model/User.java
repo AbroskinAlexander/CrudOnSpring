@@ -1,42 +1,30 @@
 package org.hometask.model;
 
-import org.springframework.stereotype.Component;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.Objects;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Component
-public class User {
+@Table(name = "users")
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String email;
+    private String username;
 
     private String password;
 
-    @Enumerated(value = EnumType.STRING)
-    private Role role;
+    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
-    }
-
-    public User(String name, String email, String password, Role role) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public User(Long id, String name, String email, String password, Role role) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
     }
 
     public Long getId() {
@@ -47,22 +35,42 @@ public class User {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return getRoles();
+    }
+
+    @Override
     public String getPassword() {
         return password;
     }
@@ -71,24 +79,20 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
-        return role;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return email.equals(user.email);
+
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(email);
+    public void removeRole(Role role) {
+        this.roles.remove(role);
     }
 }

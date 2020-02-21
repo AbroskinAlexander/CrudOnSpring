@@ -19,12 +19,8 @@
             <td>Добавление пользователя:</td>
         </tr>
         <tr>
-            <td align="right" width="100">Email:</td>
-            <td><input type="email" name="email" maxlength="50" size="20" required placeholder></td>
-        </tr>
-        <tr>
             <td align="right" width="100">Имя:</td>
-            <td><input type="text" name="name" maxlength="50" size="20" required placeholder></td>
+            <td><input type="text" name="username" maxlength="50" size="20" required placeholder></td>
         </tr>
         <tr>
             <td align="right" width="100">Пароль:</td>
@@ -32,10 +28,8 @@
         </tr>
         <tr>
             <td align="right" width="150">Тип пользователя:</td>
-            <td><select name="role" >
-                <option>USER</option>
-                <option>ADMIN</option>
-            </select>
+            <td><input type="checkbox" name="role1" value="1">USER<Br>
+                <input type="checkbox" name="role2" value="2">ADMIN<Br>
             </td>
         </tr>
         <tr>
@@ -48,20 +42,17 @@
     <caption>Списо пользователей:</caption>
     <tr>
         <td align="center">ID</td>
-        <td align="center">Email</td>
         <td align="center">Имя</td>
         <td align="center">Пароль</td>
         <td align="center">Тип пользователя</td>
         <td align="center">Удалить/Изменить</td>
     </tr>
     <c:forEach var="user" items="${users}">
-
         <tr>
             <td align="center">${user.id}</td>
-            <td align="center">${user.email}</td>
-            <td align="center">${user.name}</td>
+            <td align="center">${user.username}</td>
             <td align="center">${user.password}</td>
-            <td align="center">${user.role}</td>
+            <td align="center"><c:forEach items="${user.roles}" var="role">${role.toString()}<br/></c:forEach></td>
             <td align="center">
                 <form method="post" action="/admin/delete">
                     <input type="hidden" name="id" value=${user.id}>
@@ -77,8 +68,6 @@
 
 
 </table>
-<form method="post" action="/logout">
-    <input type="submit" value="Выход">
-</form>
+<jsp:include page="user-logout.jsp"/>
 </body>
 </html>

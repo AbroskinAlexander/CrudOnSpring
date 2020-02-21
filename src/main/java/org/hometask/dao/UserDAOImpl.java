@@ -7,7 +7,6 @@ import org.hometask.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
@@ -42,34 +41,25 @@ public class UserDAOImpl implements UserDAO {
         return session.get(User.class, id);
     }
 
-    public void updateUser(User updateUser) {
+    public void updateUser(User updateUserold) {
         Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(updateUser);
+        session.saveOrUpdate(updateUserold);
     }
 
     @Override
     public boolean ExistUser(User user) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("From User where email=:email");
-        query.setParameter("email", user.getEmail());
+        Query query = session.createQuery("From User where username=:username");
+        query.setParameter("username", user.getUsername());
         List<User> list = query.list();
         return list.size() == 0;
     }
 
     @Override
-    public User getUserByEmail(String email) {
+    public User getUserByName(String name) {
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("From User where email=:email");
-        query.setParameter("email", email);
-        if ( query.list().size() != 0) {
-            return (User)query.list().get(0);
-        }
-        return null;
-    }
-
-    @Override
-    public Optional<User> getUserByName(String name) {
-        Optional<User> res = Optional.ofNullable(getUserByEmail(name));
-        return res;
+        Query query = session.createQuery("From User where username=:username");
+        query.setParameter("username", name);
+        return (User) query.uniqueResult();
     }
 }

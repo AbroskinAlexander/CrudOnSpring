@@ -29,7 +29,7 @@ public class HibernateConfig {
         Properties properties = new Properties();
         properties.put("hibernate.dialect", environment.getRequiredProperty("hibernate.dialect"));
         properties.put("hibernate.show_sql", environment.getRequiredProperty("hibernate.show_sql"));
-        properties.put("hibernate.hbm2ddl.auto",environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
+        properties.put("hibernate.hbm2ddl.auto", environment.getRequiredProperty("hibernate.hbm2ddl.auto"));
         return properties;
     }
 
@@ -44,7 +44,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactoryBean(){
+    public LocalSessionFactoryBean sessionFactoryBean() {
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("org.hometask.model");
@@ -53,7 +53,7 @@ public class HibernateConfig {
     }
 
     @Bean
-    public HibernateTransactionManager transactionManager(){
+    public HibernateTransactionManager transactionManager() {
         HibernateTransactionManager transactionManager = new HibernateTransactionManager();
         transactionManager.setSessionFactory(sessionFactoryBean().getObject());
         return transactionManager;

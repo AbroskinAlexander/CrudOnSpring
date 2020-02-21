@@ -3,7 +3,6 @@ package org.hometask.dao;
 import org.hometask.model.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
 
@@ -19,7 +18,5 @@ public interface UserDAO {
 
     boolean ExistUser(User user);
 
-    User getUserByEmail(String email);
-
-    Optional<User> getUserByName(String name);
+   User getUserByName(String name);
 }

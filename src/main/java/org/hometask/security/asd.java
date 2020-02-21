@@ -7,7 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthenticationEventListener implements ApplicationListener<AbstractAuthenticationEvent> {
+public class asd implements ApplicationListener<AbstractAuthenticationEvent> {
 
     @Override
     public void onApplicationEvent(AbstractAuthenticationEvent authenticationEvent) {

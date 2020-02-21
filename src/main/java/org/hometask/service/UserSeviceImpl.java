@@ -24,7 +24,7 @@ public class UserSeviceImpl implements UserService {
 
     @Override
     public boolean addUser(User user) {
-        if(userDAO.ExistUser(user)){
+        if (userDAO.ExistUser(user)) {
             userDAO.addUser(user);
             return true;
         }
@@ -32,8 +32,8 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(User user) {
-        userDAO.deleteUser(user);
+    public void deleteUser(User userold) {
+        userDAO.deleteUser(userold);
     }
 
     @Override
@@ -42,12 +42,13 @@ public class UserSeviceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(User updateUser) {
-        userDAO.updateUser(updateUser);
+    public void updateUser(User updateUserold) {
+        userDAO.updateUser(updateUserold);
     }
 
     @Override
-    public User getUserByEmail(String email) {
-        return userDAO.getUserByEmail(email);
+    public User getUserByName(String name) {
+        return userDAO.getUserByName(name);
     }
+
 }

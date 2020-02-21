@@ -8,13 +8,13 @@ public interface UserService {
 
     List<User> getAllUsers();
 
-    boolean addUser(User user);
+    boolean addUser(User usero);
 
-    void deleteUser(User user);
+    void deleteUser(User usero);
 
     User getUserById(Long id);
 
     public void updateUser(User updateUser);
 
-    User getUserByEmail(String email);
+    User getUserByName(String name);
 }

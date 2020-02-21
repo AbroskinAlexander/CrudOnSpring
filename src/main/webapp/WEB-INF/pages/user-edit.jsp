@@ -25,23 +25,21 @@
                 <td><input type="hidden" name="id" value=${user.id} maxlength="50" size="20"></td>
             </tr>
             <tr>
-                <td align="right" width="100">Email:</td>
-                <td><input type="email" name="email" value=${user.email} maxlength="50" size="20" required placeholder></td>
-            </tr>
-            <tr>
                 <td align="right" width="100">Имя:</td>
-                <td><input type="text" name="name" value=${user.name} maxlength="50" size="20" required placeholder></td>
+                <td><input type="text" name="username" value=${user.username} maxlength="50" size="20" required placeholder></td>
             </tr>
             <tr>
                 <td align="right" width="100">Пароль:</td>
                 <td><input type="text" name="password" value=${user.password} maxlength="50" size="20" required placeholder></td>
             </tr>
             <tr>
+                <td align="right" width="150">Роли пользователя:</td>
+                <td> <c:forEach items="${user.roles}" var="role">${role.toString()}<br/></c:forEach></td>
+            </tr>
+            <tr>
                 <td align="right" width="150">Тип пользователя:</td>
-                <td><select name="role" >
-                    <option>USER</option>
-                    <option>ADMIN</option>
-                </select>
+                <td><input type="checkbox" name="role1" value="1">USER<Br>
+                    <input type="checkbox" name="role2" value="2">ADMIN<Br>
                 </td>
             </tr>
             <tr>
@@ -52,8 +50,6 @@
         </c:forEach>
     </table>
 </form>
-<form method="post" action="/logout">
-    <input type="submit" value="Выход">
-</form>
+<jsp:include page="user-logout.jsp"/>
 </body>
 </html>

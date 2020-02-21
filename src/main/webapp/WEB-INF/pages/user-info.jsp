@@ -26,27 +26,21 @@
             <td>${list.id}</td>
         </tr>
         <tr>
-            <td align="right" width="100">Email:</td>
-            <td>${list.email}</td>
-        </tr>
-        <tr>
             <td align="right" width="100">Имя:</td>
-            <td>${list.name}</td>
+            <td>${list.username}</td>
         </tr>
         <tr>
             <td align="right" width="100">Пароль:</td>
             <td>${list.password}</td>
         </tr>
         <tr>
-            <td align="right" width="150">Тип пользователя:</td>
-            <td>${list.role}</td>
+            <td align="right" width="150">Роли пользователя:</td>
+            <td> <c:forEach items="${list.roles}" var="role">${role.toString()}<br/></c:forEach></td>
         </tr>
 
         </tr>
     </c:forEach>
     </table>
-<form method="get" action="/logout">
-    <input type="submit" value="Выход">
-</form>
+    <jsp:include page="user-logout.jsp"/>
 </body>
 </html>

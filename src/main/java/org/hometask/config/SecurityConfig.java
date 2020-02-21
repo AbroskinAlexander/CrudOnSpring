@@ -1,6 +1,5 @@
 package org.hometask.config;
 
-import org.hometask.security.LoginSuccessHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +10,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -31,16 +32,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        http.addFilterBefore(filter, CsrfFilter.class);
         http.formLogin()
                 // указываем страницу с формой логина
                 .loginPage("/login")
                 //указываем логику обработки при логине
-              .successHandler(new LoginSuccessHandler())
+                //     .successHandler(new LoginSuccessHandler())
                 // указываем action с формы логина
                 .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/login")
                 // Указываем параметры логина и пароля с формы логина
-                .usernameParameter("email")
-                .passwordParameter("password")
+//                .usernameParameter("username")
+//                .passwordParameter("password")
                 // даем доступ к форме логина всем
                 .permitAll();
         http.logout()
@@ -57,7 +63,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // делаем страницу регистрации недоступной для авторизированных пользователей
                 .authorizeRequests()
                 .antMatchers("/admin**").hasAuthority("ADMIN")
-                .antMatchers("/user").hasAnyAuthority("ADMIN","USER");
+                .antMatchers("/user").hasAnyAuthority("USER");
 
     }
 

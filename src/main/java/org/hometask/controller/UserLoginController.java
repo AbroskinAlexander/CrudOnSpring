@@ -1,7 +1,7 @@
 package org.hometask.controller;
 
+import org.hometask.model.Role;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,13 +13,13 @@ import java.io.IOException;
 
 @Controller
 public class UserLoginController {
+
     @RequestMapping("/login")
     public ModelAndView getLogin(Authentication authentication, HttpServletRequest request, ModelAndView model, HttpServletResponse httpServletResponse) throws IOException, ServletException {
-        if(authentication!=null){
-            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))) {
+        if (authentication != null) {
+            if (authentication.getAuthorities().contains(Role.ADMIN)) {
                 httpServletResponse.sendRedirect("/admin");
-            }
-            if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("USER"))) {
+            } else {
                 httpServletResponse.sendRedirect("/user");
             }
         }
